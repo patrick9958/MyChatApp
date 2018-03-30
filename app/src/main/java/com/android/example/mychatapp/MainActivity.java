@@ -24,7 +24,11 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    if(FirebaseAuth.getInstance().getCurrentUser() == null) {
+//    TODO: NEED TO PUT AUTHENTICATION IN A METHOD (NO LOOPS IN CLASSES ALLOWED)
+    FirebaseAuth auth = FirebaseAuth.getInstance();
+    private static final int SIGN_IN_REQUEST_CODE = 952;
+
+    if(auth.getCurrentUser() == null) {
         // Start sign in/sign up activity
         startActivityForResult(
                 AuthUI.getInstance()
