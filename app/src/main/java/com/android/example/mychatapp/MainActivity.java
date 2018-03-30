@@ -12,42 +12,42 @@ import com.google.firebase.auth.FirebaseAuth;
 public class MainActivity extends AppCompatActivity {
 
     private FirebaseAnalytics mFirebaseAnalytics;
+    private static final int SIGN_IN_REQUEST_CODE = 952;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+
+        if(auth.getCurrentUser() == null) {
+            // Start sign in/sign up activity
+            startActivityForResult(
+                    AuthUI.getInstance()
+                            .createSignInIntentBuilder()
+                            .build(),
+                    SIGN_IN_REQUEST_CODE
+            );
+        } else {
+            // User is already signed in. Therefore, display
+            // a welcome Toast
+            Toast.makeText(this,
+                    "Welcome " + FirebaseAuth.getInstance()
+                            .getCurrentUser()
+                            .getDisplayName(),
+                    Toast.LENGTH_LONG)
+                    .show();
+
+            // Load chat room contents
+            displayChatMessages();
+        }
     }
 
     private void displayChatMessages() {
 
-    }
-
-//    TODO: NEED TO PUT AUTHENTICATION IN A METHOD (NO LOOPS IN CLASSES ALLOWED)
-    FirebaseAuth auth = FirebaseAuth.getInstance();
-    private static final int SIGN_IN_REQUEST_CODE = 952;
-
-    if(auth.getCurrentUser() == null) {
-        // Start sign in/sign up activity
-        startActivityForResult(
-                AuthUI.getInstance()
-                        .createSignInIntentBuilder()
-                        .build(),
-                SIGN_IN_REQUEST_CODE
-        );
-    } else {
-        // User is already signed in. Therefore, display
-        // a welcome Toast
-        Toast.makeText(this,
-                "Welcome " + FirebaseAuth.getInstance()
-                        .getCurrentUser()
-                        .getDisplayName(),
-                Toast.LENGTH_LONG)
-                .show();
-
-        // Load chat room contents
-        displayChatMessages();
     }
 
     @Override
