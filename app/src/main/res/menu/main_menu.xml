@@ -4,4 +4,17 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:title="Sign out"  app:showAsAction="never"
         android:id="@+id/menu_sign_out"/>
+
+    <item
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:title="Copy your address"  app:showAsAction="never"
+        android:id="@+id/copy_your_address"/>
+    <item
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:title="Map your location"  app:showAsAction="never"
+        android:id="@+id/map_your_location"/>
+    <item
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:title="Texting"  app:showAsAction="never"
+        android:id="@+id/back_to_text"/>
 </menu>

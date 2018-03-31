@@ -1,5 +1,6 @@
 package com.android.example.mychatapp;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -156,6 +157,23 @@ public class MainActivity extends AppCompatActivity {
                             finish();
                         }
                     });
+        }
+        else if(item.getItemId() == R.id.copy_your_address) {
+            //TODO: FINISH
+            Toast.makeText(MainActivity.this,
+                    "Copied!",
+                    Toast.LENGTH_LONG)
+                    .show();
+        }
+
+        else if(item.getItemId() == R.id.map_your_location) {
+            //TODO: FINISH
+            Intent switchtoMaps = new Intent(this, MapsActivity.class);
+            startActivity(switchtoMaps);
+        }
+        else if(item.getItemId() == R.id.back_to_text) {
+            //TODO: FINISH
+            //do nothing
         }
         return true;
     }

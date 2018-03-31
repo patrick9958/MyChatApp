@@ -1,29 +1,51 @@
 package com.android.example.mychatapp;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
+import android.widget.Toast;
 
+import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends Activity implements OnMapReadyCallback {
 
-    private GoogleMap mMap;
+    private class MapsActivityPrivate extends FragmentActivity {
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+            Intent starting =  getIntent();
+
+            // Set the layout for the layout we created
+            setContentView(R.layout.activity_maps);
+
+            // Get the Intent that called for this Activity to open
+
+            Intent activityThatCalled = getIntent();
+
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_maps);
+            // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+            SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                    .findFragmentById(R.id.map);
+            mapFragment.getMapAsync(MapsActivity.this);
+        }
     }
 
+
+
+
+    private GoogleMap mMap;
 
     /**
      * Manipulates the map once available.
@@ -42,5 +64,39 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng sydney = new LatLng(-34, 151);
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.menu_sign_out) {
+            AuthUI.getInstance().signOut(this)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            Toast.makeText(MapsActivity.this,
+                                    "You have been signed out.",
+                                    Toast.LENGTH_LONG)
+                                    .show();
+
+                            // Close activity
+                            finish();
+                        }
+                    });
+        }
+        else if(item.getItemId() == R.id.copy_your_address) {
+            //TODO: FINISH
+        }
+
+        else if(item.getItemId() == R.id.map_your_location) {
+            //TODO: FINISH
+
+        }
+        else if(item.getItemId() == R.id.back_to_text) {
+            //TODO: FINISH
+//            Intent switchtoText = new Intent(this, MainActivity.class);
+//            startActivity(switchtoText);
+
+        }
+        return true;
     }
 }
